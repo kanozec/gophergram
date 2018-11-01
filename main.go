@@ -5,18 +5,16 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/kanozec/gophergram/model"
 )
 
 func main() {
-	db, err := gorm.Open("sqlite3", "./../gophergram.db")
+	db, err := model.InitializeDB()
 	if err != nil {
-		fmt.Println("Initialize db connection error", err)
+		fmt.Println("Initalize db error")
 	}
-	db.DB().SetMaxIdleConns(10)
 	defer db.Close()
-
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello World")
