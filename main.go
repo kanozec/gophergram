@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/kanozec/gophergram/controllers"
+
 	"github.com/caarlos0/env"
 	"github.com/joho/godotenv"
 
@@ -35,6 +37,16 @@ func main() {
 	defer db.Close()
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*.html")
+
+	//TODO
+	var templatePage = []string{
+		"templates/layouts/frontend.gohtml",
+		"templates/layouts/navbar.gohtml",
+		"templates/layouts/footer.gohtml",
+	}
+	templatePage = append(templatePage, "templates/contact.gohtml")
+	router.SetHTMLTemplate(template.Must(template.ParseFiles(templatePage...)))
+
 	router.NoRoute(func(c *gin.Context) {
 		c.HTML(http.StatusNotFound, "404.html", nil)
 	})
@@ -44,15 +56,10 @@ func main() {
 	router.GET("/index", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
-	var templatePage = []string{
-		"templates/layouts/frontend.gohtml",
-		"templates/layouts/navbar.gohtml",
-		"templates/layouts/footer.gohtml",
-	}
-	templatePage = append(templatePage, "templates/contact.gohtml")
 	router.GET("/contact", func(c *gin.Context) {
-		router.SetHTMLTemplate(template.Must(template.ParseFiles(templatePage...)))
-		c.HTML(200, "frontend", nil)
+		c.HTML(http.StatusOK, "frontend", nil)
 	})
+	staticC := controllers.NewStatic()
+	router.GET("/contact1", staticC.Contact)
 	router.Run(":" + cfg.ServerPort)
 }
