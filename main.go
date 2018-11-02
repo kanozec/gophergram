@@ -23,6 +23,7 @@ type config struct {
 }
 
 func tmpInitialize(templatesDir string) multitemplate.Renderer {
+
 	render := multitemplate.NewRenderer()
 
 	frontLayouts, err := filepath.Glob(templatesDir + "/layouts/*.gohtml")
@@ -30,18 +31,27 @@ func tmpInitialize(templatesDir string) multitemplate.Renderer {
 		panic(err.Error)
 	}
 
-	includes, err := filepath.Glob(templatesDir + "/includes/**/*.gohtml")
+	includesL1, err := filepath.Glob(templatesDir + "/includes/*.gohtml")
 	if err != nil {
 		panic(err.Error)
 	}
-	statics, err := filepath.Glob(templatesDir + "/*.html")
+	includesL2, err := filepath.Glob(templatesDir + "/includes/*/*.gohtml")
+	if err != nil {
+		panic(err.Error)
+	}
+
+	includes := append(includesL1, includesL2...)
 
 	for _, include := range includes {
 		layoutClone := make([]string, len(frontLayouts))
 		copy(layoutClone, frontLayouts)
 		files := append(layoutClone, include)
 		render.AddFromFiles(strings.Replace(filepath.Base(include), ".gohtml", "", 1), files...)
-		// render.AddFromFiles(filepath.Base(include), files...)
+	}
+
+	statics, err := filepath.Glob(templatesDir + "/*.html")
+	if err != nil {
+		panic(err.Error)
 	}
 	for _, s := range statics {
 		render.AddFromFiles(strings.Replace(filepath.Base(s), ".html", "", 1), s)
