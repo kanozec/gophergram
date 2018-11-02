@@ -29,12 +29,19 @@ func main() {
 
 	db, err := model.InitializeDB()
 	if err != nil {
-		fmt.Println("Initalize db error")
+		fmt.Println("Initialize db error")
 	}
 	defer db.Close()
 	router := gin.Default()
+	router.LoadHTMLGlob("templates/*.html")
+	router.NoRoute(func(c *gin.Context) {
+		c.HTML(http.StatusNotFound, "404.html", nil)
+	})
 	router.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello World")
+	})
+	router.GET("/index", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
 	})
 	router.Run(cfg.ServerPort)
 }
