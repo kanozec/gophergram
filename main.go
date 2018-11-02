@@ -66,16 +66,7 @@ func main() {
 	}
 	defer db.Close()
 	router := gin.Default()
-	// router.LoadHTMLGlob("templates/*.html")
 
-	//TODO
-	// var templatePage = []string{
-	// 	"templates/layouts/frontend.gohtml",
-	// 	"templates/layouts/navbar.gohtml",
-	// 	"templates/layouts/footer.gohtml",
-	// }
-	// templatePage = append(templatePage, "templates/includes/contact.gohtml")
-	// router.SetHTMLTemplate(template.Must(template.ParseFiles(templatePage...)))
 	router.HTMLRender = tmpInitialize("./templates")
 	router.NoRoute(func(c *gin.Context) {
 		c.HTML(http.StatusNotFound, "404", nil)
