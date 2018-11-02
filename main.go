@@ -14,7 +14,7 @@ import (
 )
 
 type config struct {
-	ServerPort string `env:"SERVERPORT" envDefault:":8080"`
+	ServerPort string `env:"SERVERPORT" envDefault:"8080"`
 }
 
 func main() {
@@ -54,5 +54,5 @@ func main() {
 		router.SetHTMLTemplate(template.Must(template.ParseFiles(templatePage...)))
 		c.HTML(200, "frontend", nil)
 	})
-	router.Run(cfg.ServerPort)
+	router.Run(":" + cfg.ServerPort)
 }
