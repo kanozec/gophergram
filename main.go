@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 
 	"github.com/caarlos0/env"
@@ -42,6 +43,16 @@ func main() {
 	})
 	router.GET("/index", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
+	})
+	var templatePage = []string{
+		"templates/layouts/frontend.gohtml",
+		"templates/layouts/navbar.gohtml",
+		"templates/layouts/footer.gohtml",
+	}
+	templatePage = append(templatePage, "templates/contact.gohtml")
+	router.GET("/contact", func(c *gin.Context) {
+		router.SetHTMLTemplate(template.Must(template.ParseFiles(templatePage...)))
+		c.HTML(200, "frontend", nil)
 	})
 	router.Run(cfg.ServerPort)
 }
