@@ -1,15 +1,14 @@
-{{define "frontend"}}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GopherGram.com {{ .haha }}</title>
+    <title>GopherGram.com</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
     {{template "navbar"}}
     <div class="container-fluid">
-        {{template "yield".}}
+        {{template "yield" .}}
 
         {{template "footer"}}
     </div>
@@ -21,4 +20,3 @@
     </script>
   </body>
 </html>
-{{end}}

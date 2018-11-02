@@ -30,14 +30,14 @@ func tmpInitialize(templatesDir string) multitemplate.Renderer {
 		panic(err.Error)
 	}
 
-	includes, err := filepath.Glob(templatesDir + "/includes/*.gohtml")
+	includes, err := filepath.Glob(templatesDir + "/includes/**/*.gohtml")
 	if err != nil {
 		panic(err.Error)
 	}
 	statics, err := filepath.Glob(templatesDir + "/*.html")
 
 	for _, include := range includes {
-		layoutClone := make([]string, len(includes))
+		layoutClone := make([]string, len(frontLayouts))
 		copy(layoutClone, frontLayouts)
 		files := append(layoutClone, include)
 		render.AddFromFiles(strings.Replace(filepath.Base(include), ".gohtml", "", 1), files...)
@@ -91,5 +91,6 @@ func main() {
 	})
 	staticC := controllers.NewStatic()
 	router.GET("/type", staticC.Contact)
+
 	router.Run(":" + cfg.ServerPort)
 }
