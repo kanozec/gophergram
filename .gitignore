@@ -22,3 +22,6 @@ tmp/*
 
 # gin bytecode
 gin-bin
+
+# env file
+.env
