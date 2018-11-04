@@ -93,6 +93,7 @@ func main() {
 	})
 	staticC := controllers.NewStatic()
 	router.GET("/type", staticC.Contact)
+	router.GET("/type/:id", staticC.Contact)
 
 	router.Run(":" + cfg.ServerPort)
 }
