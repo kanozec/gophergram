@@ -77,6 +77,7 @@ func main() {
 	defer db.Close()
 	router := gin.Default()
 
+	router.Static("/assets", "./assets")
 	router.HTMLRender = tmpInitialize("./templates")
 	router.NoRoute(func(c *gin.Context) {
 		c.HTML(http.StatusNotFound, "404", nil)
