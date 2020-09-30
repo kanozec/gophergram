@@ -14,7 +14,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	
 	"github.com/kanozec/gophergram/model"
 )
 
